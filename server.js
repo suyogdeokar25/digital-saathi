@@ -183,35 +183,58 @@ function parseVideoUrl(value) {
 }
 
 async function initializeDatabase() {
-  const schema = fs.readFileSync(path.join(__dirname, 'db', 'schema.sql'), 'utf8');
+  const schema = fs.readFileSync(
+    path.join(__dirname, 'db', 'schema.sql'),
+    'utf8'
+  );
+
   await pool.query(schema);
 
-  const { rows } = await pool.query('SELECT COUNT(*)::int AS count FROM lessons');
-  if (rows[0].count === 0) {
-    const lessons = [
-      ['Learn your smartphone', 'Smartphone Basics', 'Get comfortable with the most useful phone controls.', '1. Press the side button to wake your phone.\n2. Swipe up or enter your PIN to unlock it.\n3. Tap an app once to open it.\n4. Use the Back button or gesture to return.\n5. Adjust volume with the side buttons.', '📱'],
-      ['Make a phone call', 'Smartphone Basics', 'Learn how to call a family member or a trusted contact.', '1. Open the Phone app.\n2. Tap Contacts or the keypad.\n3. Select a contact or enter the number.\n4. Tap the green call button.\n5. Tap the red button to end the call.', '☎️'],
-      ['Use WhatsApp', 'WhatsApp', 'Send messages and make calls to people you know.', '1. Open WhatsApp.\n2. Choose a contact you know.\n3. Type your message in the box.\n4. Tap Send.\n5. For a call, open the chat and tap the phone or video icon.', '💬'],
-      ['Make a UPI payment safely', 'Digital Payments', 'Understand safe habits before paying by UPI.', '1. Open your trusted bank or UPI app.\n2. Check the recipient name carefully.\n3. Enter the amount yourself.\n4. Review the details before approving.\n5. Never share your UPI PIN or OTP. You do not need a PIN to receive money.', '💳'],
-      ['Spot online scams', 'Online Safety', 'Recognise common tricks used by scammers.', '1. Be suspicious of urgent threats or prize messages.\n2. Never share OTPs, PINs, or passwords.\n3. Do not install screen-sharing apps for unknown callers.\n4. Do not click unexpected links.\n5. Call your bank using its official number if you are worried.', '🛡️'],
-      ['Browse the internet', 'Internet Basics', 'Learn simple, safer web browsing.', '1. Open Chrome or another browser.\n2. Tap the address/search bar.\n3. Type what you want to find.\n4. Prefer official websites for banking or government services.\n5. Avoid entering personal details on unfamiliar websites.', '🌐']
-    ];
-    const client = await pool.connect();
-    try {
-      await client.query('BEGIN');
+  const client = await pool.connect();
+
+  try {
+    await client.query('BEGIN');
+
+    // Prevent multiple Vercel instances from seeding simultaneously
+    await client.query('SELECT pg_advisory_xact_lock(741852963)');
+
+    const { rows } = await client.query(
+      'SELECT COUNT(*)::int AS count FROM lessons'
+    );
+
+    if (rows[0].count === 0) {
+      const lessons = [
+        ['Learn your smartphone', 'Smartphone Basics', 'Get comfortable with the most useful phone controls.', '1. Press the side button to wake your phone.\n2. Swipe up or enter your PIN to unlock it.\n3. Tap an app once to open it.\n4. Use the Back button or gesture to return.\n5. Adjust volume with the side buttons.', '📱'],
+
+        ['Make a phone call', 'Smartphone Basics', 'Learn how to call a family member or a trusted contact.', '1. Open the Phone app.\n2. Tap Contacts or the keypad.\n3. Select a contact or enter the number.\n4. Tap the green call button.\n5. Tap the red button to end the call.', '☎️'],
+
+        ['Use WhatsApp', 'WhatsApp', 'Send messages and make calls to people you know.', '1. Open WhatsApp.\n2. Choose a contact you know.\n3. Type your message in the box.\n4. Tap Send.\n5. For a call, open the chat and tap the phone or video icon.', '💬'],
+
+        ['Make a UPI payment safely', 'Digital Payments', 'Understand safe habits before paying by UPI.', '1. Open your trusted bank or UPI app.\n2. Check the recipient name carefully.\n3. Enter the amount yourself.\n4. Review the details before approving.\n5. Never share your UPI PIN or OTP. You do not need a PIN to receive money.', '💳'],
+
+        ['Spot online scams', 'Online Safety', 'Recognise common tricks used by scammers.', '1. Be suspicious of urgent threats or prize messages.\n2. Never share OTPs, PINs, or passwords.\n3. Do not install screen-sharing apps for unknown callers.\n4. Do not click unexpected links.\n5. Call your bank using its official number if you are worried.', '🛡️'],
+
+        ['Browse the internet', 'Internet Basics', 'Learn simple, safer web browsing.', '1. Open Chrome or another browser.\n2. Tap the address/search bar.\n3. Type what you want to find.\n4. Prefer official websites for banking or government services.\n5. Avoid entering personal details on unfamiliar websites.', '🌐']
+      ];
+
       for (const lesson of lessons) {
         await client.query(
-          'INSERT INTO lessons (title, category, description, steps, icon) VALUES ($1, $2, $3, $4, $5)',
+          `INSERT INTO lessons
+          (title, category, description, steps, icon)
+          VALUES ($1, $2, $3, $4, $5)`,
           lesson
         );
       }
-      await client.query('COMMIT');
-    } catch (error) {
-      await client.query('ROLLBACK');
-      throw error;
-    } finally {
-      client.release();
     }
+
+    await client.query('COMMIT');
+
+  } catch (error) {
+    await client.query('ROLLBACK');
+    throw error;
+
+  } finally {
+    client.release();
   }
 }
 
@@ -371,5 +394,11 @@ app.use((error, req, res, next) => {
   console.error('Request failed:', error.message);
   res.status(500).json({ error: 'Something went wrong. Please try again later.' });
 });
+
+if(require.main === module) {
+  app.listen(PORT, () =>{
+    console.log('Digital Saathi is listening on port ${PORT}');
+  });
+}
 
 module.exports = app

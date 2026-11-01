@@ -11,6 +11,7 @@ const bcrypt = require('bcryptjs');
 const { rateLimit } = require('express-rate-limit');
 const fs = require('node:fs');
 const path = require('node:path');
+const { error } = require('node:console');
 
 const app = express();
 const PORT = Number(process.env.PORT || 3000);
@@ -102,6 +103,23 @@ app.use(express.static(path.join(__dirname, 'public'), {
     if (filePath.endsWith('.html')) res.setHeader('Cache-Control', 'no-store');
   }
 }));
+
+let databaseInitialization;
+
+app.use('/api', async (req, res, next) =>{
+  try {
+    if (!databaseInitialization) {
+      databaseInitialization = 
+    initializeDatabase();
+      }
+
+      await databaseInitialization;
+      next();
+  } catch (error0){
+    databaseInitialization = undefined;
+    next(error);
+  }
+});
 
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -354,27 +372,4 @@ app.use((error, req, res, next) => {
   res.status(500).json({ error: 'Something went wrong. Please try again later.' });
 });
 
-async function start() {
-  try {
-    await initializeDatabase();
-    const server = app.listen(PORT, () => console.log(`Digital Saathi is listening on port ${PORT}`));
-
-    const shutdown = (signal) => {
-      console.log(`${signal} received. Shutting down gracefully.`);
-      server.close(async () => {
-        await sessionStore.close?.();
-        await pool.end();
-        process.exit(0);
-      });
-      setTimeout(() => process.exit(1), 10_000).unref();
-    };
-    process.on('SIGTERM', () => shutdown('SIGTERM'));
-    process.on('SIGINT', () => shutdown('SIGINT'));
-  } catch (error) {
-    console.error('Application startup failed:', error.message);
-    await pool.end();
-    process.exit(1);
-  }
-}
-
-start();
+module.exports = app

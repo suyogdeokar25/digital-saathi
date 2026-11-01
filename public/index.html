@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Digital Saathi | Learn technology with confidence</title>
+  <meta name="description" content="A friendly digital literacy learning website for senior citizens.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="brand" href="#home" aria-label="Digital Saathi home"><span class="brand-icon">🤝</span><span>Digital <strong>Saathi</strong></span></a>
+    <nav aria-label="Main navigation">
+      <a href="#learn">Learning</a><a href="#safety">Stay Safe</a><a href="#join">Join Us</a><a href="admin.html" class="nav-admin">Admin</a>
+    </nav>
+    <div class="access-tools" aria-label="Text size controls">
+      <button id="smallerText" type="button" aria-label="Decrease text size">A−</button>
+      <button id="largerText" type="button" aria-label="Increase text size">A+</button>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="home">
+      <div class="hero-copy">
+        <span class="eyebrow">TECHNOLOGY MADE FRIENDLY</span>
+        <h1>Learn digital skills.<br><span>Stay connected.</span></h1>
+        <p class="hero-intro">A simple, step-by-step guide to using your smartphone, WhatsApp, digital payments and the internet—with confidence.</p>
+        <div class="hero-actions"><a class="button button-primary" href="#learn">Start Learning <span aria-hidden="true">→</span></a><a class="button button-light" href="#join">Join a Learning Programme</a></div>
+        <div class="trust-note"><span>✓</span> Simple instructions · Safer technology · Learn at your own pace</div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="sun"></div><div class="art-card card-one"><span>💬</span><div><b>Stay connected</b><small>Message your family</small></div></div>
+        <div class="phone"><div class="phone-speaker"></div><div class="phone-screen"><div class="phone-time">9:41</div><div class="phone-avatar">👵</div><b>Hello!</b><small>You're doing great.</small><div class="phone-apps"><i>☎️</i><i>💬</i><i>🌐</i><i>📷</i></div></div></div>
+        <div class="art-card card-two"><span>🛡️</span><div><b>Learn safely</b><small>Protect your details</small></div></div>
+        <div class="sparkle sparkle-one">✦</div><div class="sparkle sparkle-two">✳</div>
+      </div>
+    </section>
+
+    <section class="benefit-strip" aria-label="Our approach">
+      <div><span>🧑‍🏫</span><p><b>Step-by-step</b><small>Easy instructions</small></p></div>
+      <div><span>🔠</span><p><b>Easy to read</b><small>Large, clear text</small></p></div>
+      <div><span>🔒</span><p><b>Safety first</b><small>Practical safety tips</small></p></div>
+      <div><span>💛</span><p><b>Learn at your pace</b><small>No pressure, keep practising</small></p></div>
+    </section>
+
+    <section class="section learn-section" id="learn">
+      <div class="section-heading"><div><span class="eyebrow">YOUR LEARNING JOURNEY</span><h2>What would you like to learn?</h2></div><p>Choose a topic to explore clear, practical lessons. You can revisit them whenever you need.</p></div>
+      <div id="lessonGrid" class="lesson-grid"><div class="loading">Loading lessons…</div></div>
+      <div class="video-heading"><div><span class="eyebrow">WATCH AND LEARN</span><h2>Learning videos</h2><p>Watch a video added by your administrator.</p></div></div>
+      <div id="videoGrid" class="video-grid"><p class="loading">Loading videos…</p></div>
+    </section>
+
+    <section class="safety-section" id="safety">
+      <div class="safety-icon">🛡️</div><div class="safety-copy"><span class="eyebrow">REMEMBER THIS</span><h2>Your safety comes first.</h2><p>Scammers may pretend to be bank staff, government officers or people you know. Pause before you act.</p></div>
+      <div class="safety-rules"><div><b>Never share</b><span>OTP, UPI PIN or password</span></div><div><b>Always check</b><span>Name and amount before paying</span></div><div><b>Stop and ask</b><span>If a message makes you panic</span></div></div>
+    </section>
+
+    <section class="section join-section" id="join">
+      <div class="join-copy"><span class="eyebrow">TAKE THE NEXT STEP</span><h2>Let's learn together.</h2><p>Register your interest in a digital literacy learning programme. A project administrator can review the details you submit.</p><div class="join-perks"><span>✓ No learner account needed</span><span>✓ Easy-to-use form</span><span>✓ Details stored in the project database</span></div></div>
+      <form id="learnerForm" class="learner-form">
+        <h3>Register your interest</h3><p class="form-note">Fields marked * are required.</p>
+        <label for="full_name">Full name *</label><input id="full_name" name="full_name" required maxlength="100" placeholder="Enter full name">
+        <div class="form-row"><div><label for="age">Age</label><input id="age" name="age" type="number" min="1" max="120" placeholder="e.g. 65"></div><div><label for="phone">Phone number</label><input id="phone" name="phone" type="tel" maxlength="20" placeholder="Optional"></div></div>
+        <label for="location">Village / city</label><input id="location" name="location" maxlength="120" placeholder="Where do you live?">
+        <label for="learning_goal">What would you like to learn?</label><select id="learning_goal" name="learning_goal"><option value="">Choose a topic</option><option>Smartphone basics</option><option>WhatsApp</option><option>Digital payments</option><option>Online safety</option><option>Internet basics</option><option>Other</option></select>
+        <label for="experience">Current experience</label><select id="experience" name="experience"><option>Beginner</option><option>Some experience</option><option>Comfortable</option></select>
+        <label class="consent-row" for="privacyConsent"><input id="privacyConsent" name="privacy_consent" type="checkbox" required><span>I have read the <a href="privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Notice</a> and agree to the use of the details above to manage this digital literacy programme. *</span></label>
+        <button class="button button-primary form-submit" type="submit">Submit registration <span>→</span></button><div id="formMessage" class="form-message" role="status" aria-live="polite"></div>
+        <small class="privacy-note">Demo project: only submit details you are comfortable sharing.</small>
+      </form>
+    </section>
+  </main>
+  <footer class="site-footer"><a class="brand footer-brand" href="#home"><span class="brand-icon">🤝</span><span>Digital <strong>Saathi</strong></span></a><p>Helping everyone take confident steps into the digital world.</p><span><a href="privacy-policy.html">Privacy Notice</a> · Built for digital literacy awareness</span></footer>
+
+  <div id="lessonModal" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-backdrop" data-close="true"></div><div class="modal-panel"><button class="modal-close" id="closeModal" aria-label="Close lesson">×</button><div id="modalIcon" class="modal-icon">📱</div><span id="modalCategory" class="eyebrow"></span><h2 id="modalTitle"></h2><p id="modalDescription"></p><ol id="modalSteps" class="lesson-steps"></ol><div class="lesson-reminder">💡 <b>Tip:</b> Ask a trusted family member or instructor to practise with you if you feel unsure.</div><button class="button button-primary" id="doneLesson">Got it!</button></div></div>
+  <script src="app.js"></script>
+</body>
+</html>

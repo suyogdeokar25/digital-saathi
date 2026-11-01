@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Admin Dashboard | Digital Saathi</title><link rel="stylesheet" href="styles.css"></head>
+<body class="admin-body">
+  <header class="site-header admin-header"><a class="brand" href="/"><span class="brand-icon">🤝</span><span>Digital <strong>Saathi</strong></span></a><nav><a href="/">← Back to website</a></nav></header>
+  <main class="admin-main">
+    <div class="admin-title"><span class="eyebrow">PROJECT MANAGEMENT</span><h1>Admin dashboard</h1><p>Review learner registrations submitted through the public website.</p></div>
+    <section id="loginPanel" class="admin-card login-card"><h2>Administrator sign in</h2><p>Sign in with the private administrator password.</p><form id="loginForm"><label for="adminPassword">Admin password</label><input id="adminPassword" type="password" required autocomplete="current-password" placeholder="Enter password"><button class="button button-primary" type="submit">Sign in</button><div id="loginMessage" class="form-message" role="status"></div></form><p class="admin-security-note">This area is restricted to authorised project administrators.</p></section>
+    <section id="dashboardPanel" hidden>
+      <div class="dashboard-toolbar"><div><h2>Learner registrations</h2><p id="recordCount">Loading records…</p></div><div class="toolbar-actions"><button id="exportCsv" class="button button-light" type="button">Export CSV</button><button id="logoutButton" class="button button-outline" type="button">Sign out</button></div></div>
+      <section class="admin-card video-admin-card">
+        <h2>Add a learning video</h2><p>Paste a YouTube link or a direct MP4 video URL. It will appear on the public Learning page.</p>
+        <form id="videoForm" class="video-admin-form">
+          <label for="videoTitle">Video title *</label><input id="videoTitle" name="title" required maxlength="120" placeholder="e.g. How to use WhatsApp">
+          <label for="videoCategory">Topic</label><input id="videoCategory" name="category" maxlength="80" placeholder="e.g. WhatsApp" value="General">
+          <label for="videoDescription">Short description</label><textarea id="videoDescription" name="description" rows="2" maxlength="500" placeholder="What will learners learn?"></textarea>
+          <label for="videoUrl">YouTube or MP4 URL *</label><input id="videoUrl" name="video_url" type="url" required placeholder="https://www.youtube.com/watch?v=...">
+          <button class="button button-primary" type="submit">Add video</button><div id="videoMessage" class="form-message" role="status"></div>
+        </form>
+        <h3 class="video-list-title">Published videos</h3><div id="adminVideoList" class="admin-video-list">Loading videos…</div>
+      </section>
+      <div class="table-wrap"><table><thead><tr><th>Name</th><th>Age</th><th>Phone</th><th>Location</th><th>Learning goal</th><th>Experience</th><th>Privacy acknowledged</th><th>Registered</th><th>Action</th></tr></thead><tbody id="learnerRows"><tr><td colspan="9">Loading…</td></tr></tbody></table></div>
+      <p class="admin-footnote">Registration records are stored in the project PostgreSQL database. Handle learner information confidentially.</p>
+    </section>
+  </main>
+  <script src="admin.js"></script>
+</body></html>

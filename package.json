@@ -1,0 +1,26 @@
+{
+  "name": "digital-saathi",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Digital literacy website for senior citizens with an Express backend and PostgreSQL database",
+  "main": "server.js",
+  "engines": {
+    "node": ">=22.16.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "hash-password": "node scripts/hash-password.js",
+    "check": "node --check server.js && node --check public/app.js && node --check public/admin.js && node --check scripts/hash-password.js && node --check scripts/import-sqlite.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "connect-pg-simple": "^10.0.0",
+    "express": "^4.22.3",
+    "express-rate-limit": "^8.7.1",
+    "express-session": "^1.19.0",
+    "helmet": "^8.3.0",
+    "pg": "^8.23.1",
+    "dotenv": "^18.0.9"
+  }
+}
